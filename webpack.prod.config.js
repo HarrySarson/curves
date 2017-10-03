@@ -9,10 +9,12 @@ const optimizingPlugins = [
   }),
   new webpack.optimize.OccurrenceOrderPlugin,
   new webpack.optimize.UglifyJsPlugin,
-  new HtmlWebpackPlugin(),
 ];
 
-webpackSettings.plugins = optimizingPlugins;
+webpackSettings.plugins = [
+  ...webpackSettings.plugins.filter((plugin) => plugin instanceof HtmlWebpackPlugin), 
+  ...optimizingPlugins,
+];
 webpackSettings.entry = webpackSettings.entry.filter((entryName) => {
   return (entryName.indexOf('hot/dev-server') === -1);
 });
